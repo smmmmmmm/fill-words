@@ -23,7 +23,7 @@
     "redux": "^4.1.2",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "http://smmmmmmm.github.io/fill-words",
+  "homepage": "https://smmmmmmm.github.io/fill-words",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
