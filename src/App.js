@@ -7,7 +7,7 @@ import Top from './components/Top';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path='' element={<Top/>} />
         <Route path='/play' element={<Play/>} />
