@@ -43,7 +43,7 @@ function Result() {
                     `都道府県穴埋め (${difficulty})
 ・time: ${time} 秒
 ・正答率: ${correctNum} / ${problemNum} (${correctRatio}%)`}
-                url={"https://smmm.github.io/fill-words/"}
+                url={"https://smmmmmmm.github.io/fill-words/"}
                 // via="smmm4423"
                 hashtags={["fill_words"]}
             >
