@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 import { Grid } from '@material-ui/core'
 import { qwords, dummyQwords, prefectures} from "./data"
 import { useNavigate } from 'react-router-dom';
-
+import { Spacer } from './Spacer'
 import { useSearchParams } from "react-router-dom";
 
 // function getRandomWord () {
@@ -176,10 +176,13 @@ function Play(props) {
   return (
     <Grid container alignItems="center" justify="center">
         <div align="center">
-          <div align="left"> time: {time.toFixed(1)} </div>
-          <div align="left"> 正解率 {
+          <Spacer size={20}/>
+          <div align="left"> time : {time.toFixed(1)} </div>
+          <div align="left"> 正解率 :
+          {answerHistory.reduce((a, b) => a + b.isCorrect, 0)} / {answerHistory.length} 
+          ({
             (answerHistory.reduce((a, b) => a + b.isCorrect, 0) * 100 / answerHistory.length).toFixed(2)
-          } %
+          }%)
           </div>
           <h1> { questions.qwords[questions.number] } </h1>
           { difficulty === "easy" && <h4> 解の数: {questions.answers[questions.number].length} </h4>}
