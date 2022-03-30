@@ -17,7 +17,7 @@ function Header() {
       <AppBar position="static" color="default">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            fill-wirds
+            fill-words
           </Typography>
         </Toolbar>
       </AppBar>
