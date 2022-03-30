@@ -34,7 +34,6 @@ function initQuestions (difficulty) {
   let shuffledQwords = qwords.slice(0, qwords.length);
 
   if (difficulty === "hard") {
-    console.log("arr")
     let shuffledDummyQwords = dummyQwords.slice(0, dummyQwords.length);
     shuffleArray(shuffledDummyQwords)
     shuffledQwords = shuffledQwords.concat(shuffledDummyQwords.slice(0, 10))
@@ -95,8 +94,8 @@ function Play(props) {
   // 時間計測
   React.useEffect(() => {
     const id = setInterval(() => {
-      setTime(t => t + 0.01);
-    }, 1);
+      setTime(t => t + 0.1);
+    }, 100);
     return () => clearInterval(id);
   }, []);
 

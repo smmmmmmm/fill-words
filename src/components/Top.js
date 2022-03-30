@@ -10,9 +10,9 @@ function Top() {
             <h2> Play </h2>
             <h3> 都道府県穴埋め </h3>
             <ul>
-                <li><h4> <Link to="play/?difficulty=easy"> Easy  </Link> </h4></li>
-                <li><h4> <Link to="play/?difficulty=normal"> Normal </Link> </h4></li>
-                <li><h4> <Link to="play/?difficulty=hard"> Hard </Link> </h4></li>
+                <li><h4> <Link to="countdown/?difficulty=easy"> Easy  </Link> </h4></li>
+                <li><h4> <Link to="countdown/?difficulty=normal"> Normal </Link> </h4></li>
+                <li><h4> <Link to="countdown/?difficulty=hard"> Hard </Link> </h4></li>
             </ul>
 
             <hr></hr>
