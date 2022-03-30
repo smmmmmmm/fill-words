@@ -6,7 +6,7 @@ function Top() {
     return (
     <>
     <Grid container spacing={2} alignItems="flex-start" justify="center">
-        <Grid item xs={8}>
+        <Grid item xs={10}>
             <h2> Play </h2>
             <h3> 都道府県穴埋め </h3>
             <ul>

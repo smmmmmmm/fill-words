@@ -6,6 +6,8 @@ import { qwords, dummyQwords, prefectures} from "./data"
 import { useNavigate } from 'react-router-dom';
 import { Spacer } from './Spacer'
 import { useSearchParams } from "react-router-dom";
+import Fade from '@material-ui/core/Fade';
+
 
 // function getRandomWord () {
 //   return prefectures[Math.floor(Math.random() * prefectures.length)]
@@ -113,12 +115,22 @@ function Play(props) {
     if (result.isCorrect) {
       enqueueSnackbar('Correct', {
         variant: 'success',
-        autoHideDuration: 1000,
+        autoHideDuration: 700,
+        TransitionComponent: Fade,
+        anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+        },
       });
     } else {
       enqueueSnackbar('Wrong', {
         variant: 'error',
-        autoHideDuration: 2000,
+        autoHideDuration: 700,
+        TransitionComponent: Fade,
+        anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+        },
         action: () => (
           <div align="left"> 
             {result.extraAnswers.length>0 && <div> extra: {result.extraAnswers.join(", ")} </div> }
