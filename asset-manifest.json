@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/fill-words/static/css/main.e409474b.css",
-    "main.js": "/fill-words/static/js/main.90ac42d5.js",
+    "main.js": "/fill-words/static/js/main.e52f32cd.js",
     "index.html": "/fill-words/index.html",
     "main.e409474b.css.map": "/fill-words/static/css/main.e409474b.css.map",
-    "main.90ac42d5.js.map": "/fill-words/static/js/main.90ac42d5.js.map"
+    "main.e52f32cd.js.map": "/fill-words/static/js/main.e52f32cd.js.map"
   },
   "entrypoints": [
     "static/css/main.e409474b.css",
-    "static/js/main.90ac42d5.js"
+    "static/js/main.e52f32cd.js"
   ]
 }
