@@ -196,7 +196,7 @@ function Play(props) {
             <div align="right" style={{minWidth: 120}}> 正解率 : {answerHistory.reduce((a, b) => a + b.isCorrect, 0)} / {answerHistory.length} 
             </div>
           </Stack>
-          <h1> { questions.qwords[questions.number].replaceAll("?", "?") } </h1>
+          <h1> { questions.qwords[questions.number] } </h1>
           { difficulty === "easy" && <h4> 解の数: {questions.answers[questions.number].length} </h4>}
           <div>
             <Stack spacing={1} direction="column" alignItems="center">
