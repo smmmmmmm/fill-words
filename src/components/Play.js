@@ -191,30 +191,32 @@ function Play(props) {
     <Grid container alignItems="center" justify="center">
         <div align="center">
           <Spacer size={20}/>
-
           <Stack spacing={2} direction="row">
             <div align="left" style={{minWidth: 120}}> time : {time.toFixed(1)} </div>
             <div align="right" style={{minWidth: 120}}> 正解率 : {answerHistory.reduce((a, b) => a + b.isCorrect, 0)} / {answerHistory.length} 
             </div>
           </Stack>
-          <h1> { questions.qwords[questions.number] } </h1>
+          <h1> { questions.qwords[questions.number].replaceAll("?", "?") } </h1>
           { difficulty === "easy" && <h4> 解の数: {questions.answers[questions.number].length} </h4>}
           <div>
-            {inputAnswers.map((ans, index) => {
-              return <p><TextField 
-                // autoFocus
-                inputRef={inputEl}
-                type="text"
-                name={"answer" + index}
-                value={ans}
-                onChange={handleChange}
-                onKeyPress={handleKeyPress}
-                autoComplete="off"
-                size="small"
-              />
-              </p>;
-            })}
+            <Stack spacing={1} direction="column" alignItems="center">
+              {inputAnswers.map((ans, index) => {
+                return <TextField 
+                  // autoFocus
+                  inputRef={inputEl}
+                  type="text"
+                  style={{maxWidth:200}}
+                  name={"answer" + index}
+                  value={ans}
+                  onChange={handleChange}
+                  onKeyPress={handleKeyPress}
+                  autoComplete="off"
+                  size="small"
+                />;
+              })}
+            </Stack>
           </div>
+          <Spacer size={12}/>
           <Stack spacing={2} direction="row">
             <Button variant="contained" size="large" onClick={addInputAnswer} style={{minWidth: 120, minHeight: 50}}> Add </Button>
             <Button variant="contained" size="large" onClick={changeWord} style={{minWidth: 120, minHeight: 50}}> Answer </Button>
