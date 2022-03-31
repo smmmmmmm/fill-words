@@ -63,11 +63,11 @@ function Top() {
                 </ul>
 
             <h3> 改善要望 </h3>
-            改善要望があれば <Link target="_blank" to='https://twitter.com/smmm4423'> @smmmm4423 </Link> に投げるとそのうち改善されるかもしれません。<br></br>
-            もしくは <Link target="_brank" to="https://github.com/smmmmmmm/fill-words"> PR か Issue </Link> たててくれれば対応されるかもしれません。
+            改善要望があれば <a target="_brank" href='https://twitter.com/smmm4423'> @smmmm4423 </a> に投げるとそのうち改善されるかもしれません。<br></br>
+            もしくは <a target="_brank" href="https://github.com/smmmmmmm/fill-words"> PR か Issue </a> たててくれれば対応されるかもしれません。当方フロントサイド詳しくないのでまさかり歓迎です
 
             <h3> Release Note </h3>
-            <Link target="_brank" to="https://github.com/smmmmmmm/fill-words/releases"> releases </Link>
+            <a target="_brank" href="https://github.com/smmmmmmm/fill-words/releases"> releases </a>
 
             <h3> 動作確認 </h3>
             だいたい最近の Chrome (on Mac) と Android
