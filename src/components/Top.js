@@ -63,11 +63,15 @@ function Top() {
                 </ul>
 
             <h3> 改善要望 </h3>
-            改善要望があれば @smmm4423 に投げるとそのうち改善されるかもしれません
-            もしくは PR か Issue たててくれれば対応されるかもしれません
+            改善要望があれば <a target="_brank" href='https://twitter.com/smmm4423'> @smmmm4423 </a> に投げるとそのうち改善されるかもしれません。<br></br>
+            もしくは <a target="_brank" href="https://github.com/smmmmmmm/fill-words"> PR か Issue </a> たててくれれば対応されるかもしれません。当方フロントサイド詳しくないのでまさかり歓迎です
+
+            <h3> Release Note </h3>
+            <a target="_brank" href="https://github.com/smmmmmmm/fill-words/releases"> releases </a>
 
             <h3> 動作確認 </h3>
             だいたい最近の Chrome (on Mac) と Android
+
         </Grid>
     </Grid>
     </>
