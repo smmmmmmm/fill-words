@@ -6,6 +6,9 @@ import { qwords, dummyQwords, prefectures} from "./data"
 import { useNavigate } from 'react-router-dom';
 import { Spacer } from './Spacer'
 import { useSearchParams } from "react-router-dom";
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import Fade from '@material-ui/core/Fade';
 
 
@@ -199,20 +202,25 @@ function Play(props) {
           { difficulty === "easy" && <h4> 解の数: {questions.answers[questions.number].length} </h4>}
           <div>
             {inputAnswers.map((ans, index) => {
-              return <p><input 
+              return <p><TextField 
                 // autoFocus
-                ref={inputEl}
+                inputRef={inputEl}
                 type="text"
                 name={"answer" + index}
                 value={ans}
                 onChange={handleChange}
                 onKeyPress={handleKeyPress}
                 autoComplete="off"
-              /></p>;
+                size="small"
+              />
+              </p>;
             })}
           </div>
-          <button onClick={addInputAnswer}> Add </button>
-          <button onClick={changeWord}> Answer </button>
+          <Spacer size={15}/>
+          <Stack spacing={2} direction="row">
+            <Button variant="contained" size="large" onClick={addInputAnswer} style={{minWidth: 120, minHeight: 50}}> Add </Button>
+            <Button variant="contained" size="large" onClick={changeWord} style={{minWidth: 120, minHeight: 50}}> Answer </Button>
+          </Stack>
         </div>
     </Grid>
   );
