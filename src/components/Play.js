@@ -26,35 +26,6 @@ import Fade from '@material-ui/core/Fade';
 //   }
 // }
 
-const checkAnswer = function (qword, answers, inputAnswers) {
-  let corrects = new Array(answers.length).fill(false)
-  let çorrectAnswers = []
-  let extraAnswers = []
-
-  inputAnswers.forEach((val) => {
-    if (val === ""){ // 空の回答は評価しない
-      return
-    } else {
-      const idx = answers.findIndex((elm) => elm === val)
-      if (idx >= 0 && !corrects[idx]) {
-        corrects[idx] = true
-        çorrectAnswers.push(val)
-      } else {
-        extraAnswers.push(val)
-      }
-    }
-  });
-  let shortageAnswers = answers.filter((e, i) => !(corrects[i]));
-  return {
-    qword: qword,
-    isCorrect:(extraAnswers.length === 0 && shortageAnswers.length === 0), 
-    extraAnswers: extraAnswers, 
-    shortageAnswers: shortageAnswers,
-    answers: answers,
-    inputAnswers: inputAnswers,
-  }
-};
-
 class Question {
   constructor(qword) {
     this.qword = qword;
@@ -120,6 +91,7 @@ function Play() {
   const { enqueueSnackbar } = useSnackbar();
   const [time, setTime] = React.useState(0);
   const [answerHistory, setAnswerHistory] = useState([]);
+  const [focusArea, setFocusArea] = useState(0);
 
 
   // redux
@@ -139,7 +111,8 @@ function Play() {
     if (inputEl.current) {
       inputEl.current.focus()
     }
-  }, [inputAnswers]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const changeWord = () => {
     const result = questions[qNumber].check(inputAnswers)
@@ -170,11 +143,10 @@ function Play() {
     tmpAnswerHistory.push(result)
     setAnswerHistory(tmpAnswerHistory)
 
-    // increment question ID
-    setQNumber(qNumber + 1) 
-
-    // input を空にする
-    setInputAnswers([""])
+    // 解答欄リセット
+    setQNumber(qNumber + 1) // increment question ID
+    setInputAnswers([""]) // input を空にする
+    setFocusArea(0) // focus を最初のエリアにする
 
     // 終了処理
     if (qNumber === (questions.length - 1)) {
@@ -189,12 +161,14 @@ function Play() {
   const addInputAnswer = () => {
     let tmpInputAnswer = inputAnswers.slice(0, inputAnswers.length);
     tmpInputAnswer.push("")
+    setFocusArea(tmpInputAnswer.length - 1)
     setInputAnswers(tmpInputAnswer)
   }
 
   const handleChange = (event) => {
     let tmpInputAnswer = inputAnswers.slice(0, inputAnswers.length);
-    tmpInputAnswer[inputAnswers.length-1] = event.target.value
+    tmpInputAnswer[event.target.name] = event.target.value
+    setFocusArea(event.target.name)
     setInputAnswers(tmpInputAnswer)
   }
 
@@ -223,10 +197,10 @@ function Play() {
               {inputAnswers.map((ans, index) => {
                 return <TextField 
                   // autoFocus
-                  inputRef={inputEl}
+                  inputRef={(focusArea === index) && inputEl}
                   type="text"
                   style={{maxWidth:200}}
-                  name={"answer" + index}
+                  name={index}
                   value={ans}
                   onChange={handleChange}
                   onKeyPress={handleKeyPress}
