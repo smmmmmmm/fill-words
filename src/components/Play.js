@@ -112,7 +112,7 @@ function Play() {
       inputEl.current.focus()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [inputAnswers]);
 
   const changeWord = () => {
     const result = questions[qNumber].check(inputAnswers)
