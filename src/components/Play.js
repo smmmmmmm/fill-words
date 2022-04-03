@@ -16,15 +16,6 @@ import Fade from '@material-ui/core/Fade';
 //   return prefectures[Math.floor(Math.random() * prefectures.length)]
 // }
 
-function shuffleArray(arr){
-  arr.sort(()=> Math.random() - 0.5);
-}
-
-function getAnswers (qword) {
-  const reQword = new RegExp("^" + qword.replaceAll("?", ".") + "$");
-  return prefectures.filter(x => x.match(reQword))
-}
-
 // function generateRandomQuestion () {
 //   const word = getRandomWord()
 //   const qword = word.substring(0, 1) + "?".repeat(word.length - 1)
@@ -34,24 +25,6 @@ function getAnswers (qword) {
 //     "answers": answers,
 //   }
 // }
-
-function initQuestions (difficulty) {
-  let shuffledQwords = qwords.slice(0, qwords.length);
-
-  if (difficulty === "hard") {
-    let shuffledDummyQwords = dummyQwords.slice(0, dummyQwords.length);
-    shuffleArray(shuffledDummyQwords)
-    shuffledQwords = shuffledQwords.concat(shuffledDummyQwords.slice(0, 10))
-  }
-
-  shuffleArray(shuffledQwords)
-  const answers = shuffledQwords.map(qword => getAnswers(qword))
-  return {
-    "number": 0,
-    "qwords": shuffledQwords,
-    "answers": answers,
-  }
-}
 
 const checkAnswer = function (qword, answers, inputAnswers) {
   let corrects = new Array(answers.length).fill(false)
@@ -82,13 +55,69 @@ const checkAnswer = function (qword, answers, inputAnswers) {
   }
 };
 
-function Play(props) {
+class Question {
+  constructor(qword) {
+    this.qword = qword;
+    this.answers = prefectures.filter(
+      x => x.match(RegExp("^" + qword.replaceAll("?", ".") + "$"))
+    );
+  }
+
+  check(inputAnswers) {
+    let corrects = new Array(this.answers.length).fill(false)
+    let extraAnswers = []
+    inputAnswers.forEach((val) => {
+      if (val === ""){ // 空の回答は評価しない
+        return
+      } else {
+        const idx = this.answers.findIndex((elm) => elm === val)
+        if (idx >= 0 && !corrects[idx]) {
+          corrects[idx] = true
+        } else {
+          extraAnswers.push(val)
+        }
+      }
+    });
+    let shortageAnswers = this.answers.filter((e, i) => !(corrects[i]));
+
+    return {
+      "qword": this.qword,
+      "answers": this.answers,
+      "inputAnswers": inputAnswers,
+      "isCorrect": (extraAnswers.length === 0 && shortageAnswers.length === 0),
+      "extraAnswers": extraAnswers,
+      "shortageAnswers": shortageAnswers,
+    }
+  }
+
+}
+
+function shuffleArray(arr){
+  arr.sort(()=> Math.random() - 0.5);
+}
+
+function initQuestions (difficulty) {
+  let shuffledQwords = qwords.slice(0, qwords.length);
+
+  if (difficulty === "hard") {
+    let shuffledDummyQwords = dummyQwords.slice(0, dummyQwords.length);
+    shuffleArray(shuffledDummyQwords)
+    shuffledQwords = shuffledQwords.concat(shuffledDummyQwords.slice(0, 10))
+  }
+
+  shuffleArray(shuffledQwords)
+  return shuffledQwords.map(qword => new Question(qword))
+}
+
+
+function Play() {
   const [searchParams] = useSearchParams();
   const difficulty = searchParams.get("difficulty")
 
-  const [questions, setQuestions] = useState(() => initQuestions(difficulty));
+  const [questions] = useState(() => initQuestions(difficulty));
+  const [qNumber, setQNumber] = useState(0);
   const [inputAnswers, setInputAnswers] = useState([""]);
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const [time, setTime] = React.useState(0);
   const [answerHistory, setAnswerHistory] = useState([]);
 
@@ -113,57 +142,48 @@ function Play(props) {
   }, [inputAnswers]);
 
   const changeWord = () => {
-    const answers = questions.answers[questions.number]
-    let result = checkAnswer(questions.qwords[questions.number], answers, inputAnswers)
+    const result = questions[qNumber].check(inputAnswers)
     if (result.isCorrect) {
       enqueueSnackbar('Correct', {
         variant: 'success',
         autoHideDuration: 700,
         TransitionComponent: Fade,
-        anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'right',
-        },
+        anchorOrigin: {vertical: 'top',horizontal: 'right'},
       });
     } else {
       enqueueSnackbar('Wrong', {
         variant: 'error',
         autoHideDuration: 700,
         TransitionComponent: Fade,
-        anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'right',
-        },
+        anchorOrigin: {vertical: 'top',horizontal: 'right'},
         action: () => (
           <div align="left"> 
             {result.extraAnswers.length>0 && <div> extra: {result.extraAnswers.join(", ")} </div> }
             {result.shortageAnswers.length>0 && <div> shortage: {result.shortageAnswers.join(", ")} </div> }
-            {/* shortage items: {result.shortageAnswers.join(", ")}  <br /> */}
           </div>
         )
       });
     }
 
+    // save result
     let tmpAnswerHistory = answerHistory.slice(0, answerHistory.length);
     tmpAnswerHistory.push(result)
     setAnswerHistory(tmpAnswerHistory)
-    setQuestions(
-      {
-        number: questions.number + 1,
-        qwords: questions.qwords,
-        answers: questions.answers,
-      }
-    )
-    if (questions.number === (questions.qwords.length-1)) {
-      // console.log(tmpAnswerHistory)
-      // dispath({type: "UPDATE", result: tmpAnswerHistory})
+
+    // increment question ID
+    setQNumber(qNumber + 1) 
+
+    // input を空にする
+    setInputAnswers([""])
+
+    // 終了処理
+    if (qNumber === (questions.length - 1)) {
       navigate('/result', {state: {
         results: tmpAnswerHistory,
         time: time,
         difficulty: difficulty,
       }})
     }
-    setInputAnswers([""])
   }
 
   const addInputAnswer = () => {
@@ -196,8 +216,8 @@ function Play(props) {
             <div align="right" style={{minWidth: 120}}> 正解率 : {answerHistory.reduce((a, b) => a + b.isCorrect, 0)} / {answerHistory.length} 
             </div>
           </Stack>
-          <h1> { questions.qwords[questions.number] } </h1>
-          { difficulty === "easy" && <h4> 解の数: {questions.answers[questions.number].length} </h4>}
+          <h1> { questions[qNumber].qword } </h1>
+          { difficulty === "easy" && <h4> 解の数: {questions[qNumber].answers.length} </h4>}
           <div>
             <Stack spacing={1} direction="column" alignItems="center">
               {inputAnswers.map((ans, index) => {
